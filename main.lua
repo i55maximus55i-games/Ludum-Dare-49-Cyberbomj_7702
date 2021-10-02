@@ -1,10 +1,11 @@
-lick = require "lick"
-lick.reset = true -- reload the love.load everytime you save
-
 world = require 'oo'
 hitbox = require 'hitbox.hitbox'
 local punchable = require 'factories.punchable'
 local player_factory = require 'factories.player'
+
+screenCanvas = love.graphics.newCanvas(160*2,90*2)
+love.graphics.setDefaultFilter("nearest")
+
 
 local joysticks = {}
 for i,v in ipairs(love.joystick.getJoysticks()) do
@@ -15,6 +16,7 @@ for i,v in ipairs(love.joystick.getJoysticks()) do
 end
 
 function love.load() 
+    
     world:add(punchable(200,100))
     world:add(punchable(200,130))
     world:add(punchable(200,160))
@@ -49,5 +51,35 @@ function love.draw()
         
         love.graphics.print(joystick.instance:getGamepadMappingString(), 10, i * 20 + 10)
     end
+
+    
+    
+    love.graphics.setCanvas(screenCanvas)
+    local camsum = 0
+    local camcount = 0
+    local camx = 0
+    for i,object in pairs(world.objects) do
+        if object.team == 0 then
+            love.graphics.line(object.x,0,object.x,100)
+            camcount = camcount + 1
+            camsum = camsum + object.x
+        else
+        end
+    end
+    
+    love.graphics.setColor(1,1,1,1)
+    
+    if camcount > 0 then
+        camx = camsum / camcount - 160
+    end
+    love.graphics.clear()
+    love.graphics.translate(-camx,0)
+    love.graphics.line(0,0,0,200)
+    
     world:draw()
+    
+    love.graphics.setCanvas()
+    love.graphics.translate(camx,0)
+    love.graphics.draw(screenCanvas,0,0,0,2,2)
+    print(camcount,camsum,camx)
 end
