@@ -2,6 +2,7 @@ lick = require "lick"
 lick.reset = true -- reload the love.load everytime you save
 
 world = require 'oo'
+hitbox = require 'hitbox.hitbox'
 local player_factory = require 'factories.player'
 
 local joysticks = {}
