@@ -12,6 +12,7 @@ return function (joyrecord,x,y)
     player.inputbuffer = {}
     player.x = x
     player.y = y
+    player.z = 0
     
     player.statetimer = 0
 
@@ -34,7 +35,7 @@ return function (joyrecord,x,y)
     end
 
     function player.draw_states.normal(self)
-        love.graphics.draw(self.frames.idle,self.x,self.y)
+        love.graphics.draw(self.frames.idle,self.x,self.y - self.z)
     end
 
 
@@ -45,18 +46,18 @@ return function (joyrecord,x,y)
     end
 
     function player.update_states.punch2(self)
-        hitbox.tryhit(self, self.x+19, self.y+12, 5, 5 )
+        hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5)
         if self.statetimer > 0.1 then
             self:setstate("normal")
         end
     end
 
     function player.draw_states.punch1(self)
-        love.graphics.draw(self.frames.punch1,self.x,self.y)
+        love.graphics.draw(self.frames.punch1, self.x, self.y - self.z)
     end
 
     function player.draw_states.punch2(self)
-        love.graphics.draw(self.frames.punch2,self.x,self.y)
+        love.graphics.draw(self.frames.punch2, self.x, self.y - self.z)
     end
 
     function player.setstate(self, newstate)
@@ -75,6 +76,8 @@ return function (joyrecord,x,y)
     function player.update(self,dt)
         self:current_update_state(dt)
         self.statetimer = self.statetimer + dt
+        self.z = self.z - dt * 10
+        if self.z < 0 then self.z = 0 end
     end
 
     function player.draw(self)
