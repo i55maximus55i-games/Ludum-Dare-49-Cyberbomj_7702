@@ -1,13 +1,15 @@
-return function (x,y)
+return function (joyrecord,x,y)
     local player = {}
+    player.joy = joyrecord.instance
     player.inputbuffer = {}
     player.x = x
     player.y = y
     player.tt = 0
     function player.update(self,dt)
         self.tt = self.tt + dt
-        self.x = self.x + math.sin(self.tt)
-        self.y = self.y + math.cos(self.tt)
+        local ax1, ax2, ax3, ax4 = self.joy:getAxes()
+        self.x = self.x + ax1
+        self.y = self.y + ax2
     end
     function player.draw(self,dt)
         love.graphics.circle("fill", self.x, self.y, 16,16)
