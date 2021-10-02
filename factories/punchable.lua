@@ -6,7 +6,7 @@ return function (x,y)
         hit = love.graphics.newImage("/assets/hit_placeholder.png")
     }
 
-    punchable.team = 0
+    punchable.team = 1
     punchable.x = x
     punchable.y = y
     punchable.z = 0

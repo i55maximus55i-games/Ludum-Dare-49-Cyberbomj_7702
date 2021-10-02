@@ -37,7 +37,7 @@ function hitbox.tryhit(attacker, x, y, z, width, height, depth, callback_arg)
             b_y1 = (v.y + hit.oy + hit.height)
             b_z1 = (v.z + hit.oz + hit.depth)
 
-            if v.hitbox.enabled and (a_x0 < b_x1) and (b_x0 < a_x1) and (a_y0 < b_y1) and (b_y0 < a_y1) and (a_z0 < b_z1) and (b_z0 < a_z1) then
+            if v.hitbox.enabled and attacker.team ~= v.team and (a_x0 < b_x1) and (b_x0 < a_x1) and (a_y0 < b_y1) and (b_y0 < a_y1) and (a_z0 < b_z1) and (b_z0 < a_z1) then
                 -- print("attacker : " .. attacker.tag)
                 -- print("A = {" .. a_x0 .. ", " .. a_y0 .. "}, B = {" .. a_x1 .. ", " .. a_y1 .. "}")
                 -- print("target   : " .. v.tag)
