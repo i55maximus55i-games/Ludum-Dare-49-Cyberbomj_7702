@@ -1,7 +1,7 @@
 lick = require "lick"
 lick.reset = true -- reload the love.load everytime you save
 
-local world = require 'oo'
+world = require 'oo'
 local player_factory = require 'factories.player'
 
 local joysticks = {}
@@ -45,5 +45,5 @@ function love.draw()
         
         love.graphics.print(joystick.instance:getGamepadMappingString(), 10, i * 20 + 10)
     end
-    world:draw(dt)
+    world:draw()
 end

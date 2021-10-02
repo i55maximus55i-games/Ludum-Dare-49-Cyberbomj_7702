@@ -20,5 +20,4 @@ local world = {
         o[old.myid] = nil
     end
 }
-
 return world
