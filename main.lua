@@ -3,6 +3,7 @@ lick.reset = true -- reload the love.load everytime you save
 
 world = require 'oo'
 hitbox = require 'hitbox.hitbox'
+local punchable = require 'factories.punchable'
 local player_factory = require 'factories.player'
 
 local joysticks = {}
@@ -14,7 +15,9 @@ for i,v in ipairs(love.joystick.getJoysticks()) do
 end
 
 function love.load() 
-
+    world:add(punchable(200,100))
+    world:add(punchable(200,130))
+    world:add(punchable(200,160))
 end
 
 function love.update(dt)

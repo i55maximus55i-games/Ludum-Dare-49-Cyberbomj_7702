@@ -27,11 +27,7 @@ function hitbox.tryhit(attacker, x, y, width, height, callback_arg)
             b_y1 = (v.y + hit.oy + hit.height)
 
             if (a_x0 < b_x1) and (b_x0 < a_x1) and (a_y0 < b_y1) and (b_y0 < a_y1) then
-                -- print("attacker : " .. attacker.tag)
-                -- print("A = {" .. a_x0 .. ", " .. a_y0 .. "}, B = {" .. a_x1 .. ", " .. a_y1 .. "}")
-                -- print("target   : " .. v.tag)
-                -- print("A = {" .. b_x0 .. ", " .. b_y0 .. "}, B = {" .. b_x1 .. ", " .. b_y1 .. "}")
-                -- print()
+                
                 v.hitbox.callback(attacker, callback_arg)
             end
         end

@@ -22,18 +22,12 @@ return function (joyrecord,x,y)
 
     local function walk_movement(self, dt)
         local ax1, ax2 = self.joy:getAxes()
-        self.x = self.x + ((ax1)*dt)*10
-        self.y = self.y + ((ax2/2)*dt)*10
+        self.x = self.x + ((ax1)*dt)*30
+        self.y = self.y + ((ax2/2)*dt)*30
     end
 
     function player.update_states.normal(self, dt)
         walk_movement(self, dt)
-        if self.joy:isGamepadDown("b") then
-            self:setstate("punch1")
-        end
-        if self.joy:isGamepadDown("b") then
-            self:setstate("punch1")
-        end
         if self.joy:isGamepadDown("b") then
             self:setstate("punch1")
         end
@@ -51,6 +45,7 @@ return function (joyrecord,x,y)
     end
 
     function player.update_states.punch2(self)
+        hitbox.tryhit(self, self.x+19, self.y+12, 5, 5 )
         if self.statetimer > 0.1 then
             self:setstate("normal")
         end
