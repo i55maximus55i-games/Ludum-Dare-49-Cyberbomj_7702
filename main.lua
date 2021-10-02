@@ -1,3 +1,4 @@
+sounds = require 'sounds'
 world = require 'oo'
 hitbox = require 'hitbox.hitbox'
 local punchable = require 'factories.punchable'
@@ -35,10 +36,12 @@ function love.update(dt)
             local np = player_factory(v,100,100)
             v.player = np
             world:add(np)
+            sound_player_join:play()
         end
         if not v.available and v.instance:isGamepadDown("back") then
             v.available = true
             world:del(v.player)
+            sound_player_disconnect:play()
         end
     end
     world:update(dt)

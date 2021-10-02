@@ -6,11 +6,12 @@ return function (x,y)
         hit = love.graphics.newImage("/assets/hit_placeholder.png")
     }
 
-    punchable.team = 0
+    punchable.team = 1
     punchable.x = x
     punchable.y = y
+    punchable.z = 0
     
-    punchable.hitbox = hitbox.new(0,0,24,32,function (attacker)
+    punchable.hitbox = hitbox.new(0, 0, 0, 24, 32, 5, function (attacker)
         punchable:setstate("hit1")
     end)
 
