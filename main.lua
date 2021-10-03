@@ -1,4 +1,5 @@
 sounds = require 'sounds'
+sharedstates = require 'sharedstates'
 world = require 'oo'
 hitbox = require 'hitbox.hitbox'
 local punchable = require 'factories.punchable'
@@ -21,7 +22,6 @@ for i,v in ipairs(love.joystick.getJoysticks()) do
 end
 
 function love.load() 
-    
     world:add(punchable(200,100))
     world:add(punchable(200,130))
     world:add(punchable(200,160))
