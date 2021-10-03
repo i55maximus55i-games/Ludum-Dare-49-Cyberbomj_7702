@@ -50,12 +50,12 @@ function sharedstates.create_update_states()
         end
     end
 
-    function new_update_states.uppercut1()
-        if self.statetimer > 0.1 then
+    function new_update_states.uppercut1(self)
+        if self.statetimer > 0.33 then
             self:setstate("uppercut2")
         end
     end
-    function new_update_states.uppercut2()
+    function new_update_states.uppercut2(self)
         if self.left then
             hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 15})            
         else
@@ -66,12 +66,12 @@ function sharedstates.create_update_states()
         end
     end
 
-    function new_update_states.kick1()
-        if self.statetimer > 0.1 then
+    function new_update_states.kick1(self)
+        if self.statetimer > 0.3 then
             self:setstate("kick2")
         end
     end
-    function new_update_states.kick2()
+    function new_update_states.kick2(self)
         if self.left then
             hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 0})            
         else
@@ -82,12 +82,12 @@ function sharedstates.create_update_states()
         end
     end
 
-    function new_update_states.elbow1()
+    function new_update_states.elbow1(self)
         if self.statetimer > 0.1 then
             self:setstate("elbow2")
         end
     end
-    function new_update_states.elbow2()
+    function new_update_states.elbow2(self)
         if self.left then
             hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 0})
         else
@@ -135,14 +135,14 @@ function sharedstates.create_draw_states()
     end    
 
     function new_draw_states.kick1(self,dx,dy,dz,f,ox)
-        love.graphics.draw(self.frames.kick1, dx, dy - dz,nil,f,1,ox)
+        love.graphics.draw(self.frames.punch1, dx, dy - dz,nil,f,1,ox)
     end
     function new_draw_states.kick2(self,dx,dy,dz,f,ox)
         love.graphics.draw(self.frames.kick2, dx, dy - dz,nil,f,1,ox)
     end
         
     function new_draw_states.elbow1(self,dx,dy,dz,f,ox)
-        love.graphics.draw(self.frames.elbow1, dx, dy - dz,nil,f,1,ox)
+        love.graphics.draw(self.frames.punch1, dx, dy - dz,nil,f,1,ox)
     end
     function new_draw_states.elbow2(self,dx,dy,dz,f,ox)
         love.graphics.draw(self.frames.elbow2, dx, dy - dz,nil,f,1,ox)

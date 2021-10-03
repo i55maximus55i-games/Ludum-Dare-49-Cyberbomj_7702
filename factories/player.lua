@@ -5,7 +5,12 @@ return function (joyrecord,x,y)
         idle = love.graphics.newImage("/assets/idle_placeholder.png"),
         punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
         punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
-        block = love.graphics.newImage("/assets/block_placeholder.png")
+        block = love.graphics.newImage("/assets/block_placeholder.png"),
+        
+        uppercut1 = love.graphics.newImage("/assets/sit_placeholder.png"),
+        uppercut2 = love.graphics.newImage("/assets/uppercut_placeholder.png"),
+        kick2 = love.graphics.newImage("/assets/kick_placeholder.png"),
+        elbow2 = love.graphics.newImage("/assets/elbowpunch_placeholder.png")
     }
 
     player.team = 0
@@ -44,6 +49,15 @@ return function (joyrecord,x,y)
     -- state normal
     function player.update_states.normal(self, dt)
         walk_movement(self, dt)
+        if self.joy:isGamepadDown("x") then
+            self:setstate("elbow1")
+        end
+        if self.joy:isGamepadDown("y") then
+            self:setstate("uppercut1")
+        end
+        if self.joy:isGamepadDown("a") then
+            self:setstate("kick1")
+        end
         if self.joy:isGamepadDown("b") then
             self:setstate("punch1")
         end
