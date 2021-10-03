@@ -9,6 +9,10 @@ local picture_factory = require 'factories.pictureobject'
 font = love.graphics.newFont("/assets/uni0553-webfont.ttf")
 love.graphics.setFont(font)
 
+spawnpos = 0
+camgoal = 0
+camx = 0
+
 screenCanvas = love.graphics.newCanvas(160*2,90*2)
 --love.graphics.setDefaultFilter("nearest")
 screenCanvas:setFilter("nearest","nearest")
@@ -49,6 +53,40 @@ bum_frames[2] = {
     walk2 = love.graphics.newImage("/assets/green_idlewalk_6.png")
 }
 bum_frames[3] = {
+    idle = love.graphics.newImage("/assets/gray_idle_00.png"),
+    punch1 = love.graphics.newImage("/assets/gray_ready_00.png"),
+    punch2 = love.graphics.newImage("/assets/gray_punch_02.png"),
+    block = love.graphics.newImage("/assets/gray_block_00.png"),
+    hit = love.graphics.newImage("/assets/gray_hit_00.png"),
+    knockover = love.graphics.newImage("/assets/gray_kockover_00.png"),
+    down = love.graphics.newImage("/assets/gray_down_00.png"),
+    
+    uppercut1 = love.graphics.newImage("/assets/gray_uppercut_00.png"),
+    uppercut2 = love.graphics.newImage("/assets/gray_uppercut_02.png"),
+    kick2 = love.graphics.newImage("/assets/gray_kick_02.png"),
+    elbow2 = love.graphics.newImage("/assets/gray_elbowpunch_02.png"),
+
+    walk1 = love.graphics.newImage("/assets/gray_idlewalk_0.png"),
+    walk2 = love.graphics.newImage("/assets/gray_idlewalk_1.png")
+}
+bum_frames[4] = {
+    idle = love.graphics.newImage("/assets/red_idle_00.png"),
+    punch1 = love.graphics.newImage("/assets/red_ready_00.png"),
+    punch2 = love.graphics.newImage("/assets/red_punch_02.png"),
+    block = love.graphics.newImage("/assets/red_block_00.png"),
+    hit = love.graphics.newImage("/assets/red_hit_00.png"),
+    knockover = love.graphics.newImage("/assets/red_knockover_00.png"),
+    down = love.graphics.newImage("/assets/red_down_00.png"),
+    
+    uppercut1 = love.graphics.newImage("/assets/red_uppercut_00.png"),
+    uppercut2 = love.graphics.newImage("/assets/red_uppercut_02.png"),
+    kick2 = love.graphics.newImage("/assets/red_kick_02.png"),
+    elbow2 = love.graphics.newImage("/assets/red_elbowpunch_02.png"),
+
+    walk1 = love.graphics.newImage("/assets/red_idlewalk_0.png"),
+    walk2 = love.graphics.newImage("/assets/red_idlewalk_1.png")
+}
+bum_frames[5] = {
     idle = love.graphics.newImage("/assets/idle_placeholder.png"),
     punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
     punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
@@ -89,7 +127,7 @@ function love.update(dt)
     for i,v in pairs(joysticks) do
         if v.available and v.instance:isGamepadDown("start") then
             v.available = false
-            local np = player_factory(v,100,100)
+            local np = player_factory(v,spawnpos,100)
             v.player = np
             world:add(np)
             sound_player_join:play()
@@ -97,6 +135,11 @@ function love.update(dt)
             np.team = i
             np.frames = bum_frames[i]
         end
+
+        if v.playerobj and v.playerobj.health < 1 then
+            world:add(picture_factory(v.playerobj.x,v.playerobj.y,"/assets/tombstone.png"))
+        end
+
         if not v.available and (v.instance:isGamepadDown("back") or v.playerobj.health < 1 or v.playerobj.inactivity > 30)  then
             v.available = true
             world:del(v.player)
@@ -113,7 +156,7 @@ function love.draw()
     love.graphics.setCanvas(screenCanvas)
     local camsum = 0
     local camcount = 0
-    local camx = 0
+    
     for i,object in pairs(world.objects) do
         if object.isplayer then
             camcount = camcount + 1
@@ -123,14 +166,17 @@ function love.draw()
     end
     
     if camcount > 0 then
-        camx = camsum / camcount - 160
+        camgoal = camsum / camcount - 160
     end
-    if camx < -160 then
-        camx = -160
+    if camgoal < -160 then
+        camgoal = -160
     end
-    if camx > 320 then
-        camx = 320
+    if camgoal > 320 then
+        camgoal = 320
     end
+
+    spawnpos = camgoal + 160+love.math.random(100)-50
+    camx = camx + (camgoal - camx) * 0.1
     love.graphics.clear()
     love.graphics.translate(math.floor(-camx),0)
     love.graphics.line(0,0,0,200)
@@ -139,7 +185,7 @@ function love.draw()
     
     love.graphics.setCanvas()
     love.graphics.translate(camx,0)
-    love.graphics.draw(screenCanvas,0,0,0,3,3)
+    love.graphics.draw(screenCanvas,0,0,0,4,4)
     for i, joystick in ipairs(joysticks) do
         local offset = (160*i)-80
         if not joystick.available then
