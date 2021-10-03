@@ -98,5 +98,5 @@ SELECT TO LEAVE
     
     love.graphics.setCanvas()
     love.graphics.translate(camx,0)
-    love.graphics.draw(screenCanvas,0,0,0,2,2)
+    love.graphics.draw(screenCanvas,0,0,0,3,3)
 end
