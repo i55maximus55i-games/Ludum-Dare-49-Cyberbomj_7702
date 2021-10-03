@@ -137,7 +137,7 @@ function love.update(dt)
         end
 
         if v.playerobj and v.playerobj.health < 1 then
-            world:add(picture_factory(v.playerobj.x,v.playerobj.y,"/assets/tombstone.png"))
+            world:add(picture_factory(v.playerobj.x,v.playerobj.y,"/assets/tombstone.png",true))
         end
 
         if not v.available and (v.instance:isGamepadDown("back") or v.playerobj.health < 1 or v.playerobj.inactivity > 30)  then
