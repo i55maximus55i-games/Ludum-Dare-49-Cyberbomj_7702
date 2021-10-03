@@ -52,8 +52,8 @@ return function (joyrecord,x,y)
         if ax1 < -0.1 then player.left = true  end
         if ax1 >  0.1 then player.left = false end
 
-        self.x = self.x + ((ax1)*dt)*50
-        self.y = self.y + ((ax2/2)*dt)*40
+        self.x = self.x + ((ax1)*dt)*70
+        self.y = self.y + ((ax2/2)*dt)*50
 
         if math.abs(ax1) > 0.2 then
             self.inactivity = 0
@@ -85,7 +85,7 @@ return function (joyrecord,x,y)
     
     function player.draw_states.normal(self,dx,dy,dz,f,ox)
         local ax1, ax2 = self.joy:getAxes()
-        if math.abs(ax1) > 0.2 then
+        if math.abs(ax1) > 0.2 or math.abs(ax2) > 0.2 then
             if self.statetimer % 0.4 < 0.2 then love.graphics.draw(self.frames.walk1,dx,dy - dz,nil,f,1,ox)
             else love.graphics.draw(self.frames.walk2,dx,dy - dz,nil,f,1,ox) end
         else
