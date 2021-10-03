@@ -48,9 +48,9 @@ return function (joyrecord,x,y)
             self:setstate("punch1")
         end
     end
-    function player.draw_states.normal(self)
-        love.graphics.draw(self.frames.idle,self.x,self.y - self.z)
-    en
+    function player.draw_states.normal(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.idle,dx,dy - dz,nil,f,1,ox)
+    end
 
 
     function player.setstate(self, newstate)
@@ -76,7 +76,8 @@ return function (joyrecord,x,y)
     function player.draw(self)
         local dx, dy, dz = math.floor(self.x), math.floor(self.y), math.floor(self.z)
         local f = self.left and -1 or 1
-        self:current_draw_state(dx,dy,dz,f)
+        local ox = self.left and 24 or 0
+        self:current_draw_state(dx,dy,dz,f,ox)
     end
 
     return player

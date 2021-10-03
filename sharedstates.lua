@@ -22,11 +22,11 @@ end
 
 function sharedstates.create_draw_states()
     local new_draw_states = {}
-    function new_draw_states.punch1(self)
-        love.graphics.draw(self.frames.punch1, self.x, self.y - self.z)
+    function new_draw_states.punch1(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.punch1, dx, dy - dz,nil,f,1,ox)
     end
-    function new_draw_states.punch2(self)
-        love.graphics.draw(self.frames.punch2, self.x, self.y - self.z)
+    function new_draw_states.punch2(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.punch2, dx, dy - dz,nil,f,1,ox)
     end
     return new_draw_states
 end
