@@ -13,7 +13,10 @@ return function (joyrecord,x,y)
         uppercut1 = love.graphics.newImage("/assets/sit_placeholder.png"),
         uppercut2 = love.graphics.newImage("/assets/uppercut_placeholder.png"),
         kick2 = love.graphics.newImage("/assets/kick_placeholder.png"),
-        elbow2 = love.graphics.newImage("/assets/elbowpunch_placeholder.png")
+        elbow2 = love.graphics.newImage("/assets/elbowpunch_placeholder.png"),
+
+        walk1 = love.graphics.newImage("/assets/idle_walk1.png"),
+        walk2 = love.graphics.newImage("/assets/idle_walk2.png")
     }
 
     player.team = 0
@@ -80,8 +83,17 @@ return function (joyrecord,x,y)
             self:setstate("punch1")
         end
     end
+    
     function player.draw_states.normal(self,dx,dy,dz,f,ox)
-        love.graphics.draw(self.frames.idle,dx,dy - dz,nil,f,1,ox)
+        local ax1, ax2 = self.joy:getAxes()
+        if math.abs(ax1) > 0.2 then
+            if self.statetimer % 0.4 < 0.2 then love.graphics.draw(self.frames.walk1,dx,dy - dz,nil,f,1,ox)
+            else love.graphics.draw(self.frames.walk2,dx,dy - dz,nil,f,1,ox) end
+        else
+            love.graphics.draw(self.frames.idle,dx,dy - dz,nil,f,1,ox)
+        end
+
+        
     end
 
 
