@@ -23,6 +23,8 @@ return function (joyrecord,x,y)
 
     local function walk_movement(self, dt)
         local ax1, ax2 = self.joy:getAxes()
+        if math.abs(ax1) < 0.2 then ax1 = 0 end
+        if math.abs(ax2) < 0.2 then ax2 = 0 end
         self.x = self.x + ((ax1)*dt)*30
         self.y = self.y + ((ax2/2)*dt)*30
     end
