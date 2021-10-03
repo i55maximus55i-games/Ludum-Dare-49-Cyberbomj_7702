@@ -26,7 +26,7 @@ function love.load()
     world:add(punchable(200,100))
     world:add(punchable(200,130))
     world:add(punchable(200,160))
-    world:add(picture_factory(-320,0,/))
+    world:add(picture_factory(-320,0,"/assets/backdrop.png"))
 end
 
 function love.update(dt)
@@ -98,5 +98,5 @@ SELECT TO LEAVE
     
     love.graphics.setCanvas()
     love.graphics.translate(camx,0)
-    love.graphics.draw(screenCanvas,0,0,0,2,2)
+    love.graphics.draw(screenCanvas,0,0,0,3,3)
 end
