@@ -6,8 +6,23 @@ sharedstates.draw_states = {}
 function sharedstates.create_update_states()
     local new_update_states = {}
 
+    function new_update_states.knockover(self,dt)
+        self.x = self.z + dt*self.knockvz 
+        self.knockvz = self.knockvz - dt * 4
+        if self.z < 0 then
+            self.z = 0
+            self:setstate("down")
+        end
+    end
+
+    function new_update_states.down(self,dt)
+        if self.statetimer > 1 then
+            self:setstate("normal")
+        end
+    end
+
     function new_update_states.hit1(self,dt)
-        self.x = self.x + dt*30
+        self.x = self.x + dt*self.knockvx * 6
         if self.statetimer > 0.1 then
             self:setstate("hit2")
         end
@@ -90,6 +105,14 @@ end
 function sharedstates.create_draw_states()
     local new_draw_states = {}
     
+    function new_draw_states.knockover(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.knockover,dx, dy - dz,nil,f,1,ox)
+    end
+
+    function new_draw_states.down(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.knockover,dx, dy - dz+4,nil,f,1,ox)
+    end
+
     function new_draw_states.hit1(self,dx,dy,dz,f,ox)
         love.graphics.draw(self.frames.hit,dx, dy - dz,nil,f,1,ox)
     end

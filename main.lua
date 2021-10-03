@@ -44,6 +44,7 @@ function love.update(dt)
             world:add(np)
             sound_player_join:play()
             v.playerobj = np
+            np.team = i
         end
         if not v.available and v.instance:isGamepadDown("back") then
             v.available = true
