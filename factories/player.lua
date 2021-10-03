@@ -4,7 +4,8 @@ return function (joyrecord,x,y)
     player.frames = {
         idle = love.graphics.newImage("/assets/idle_placeholder.png"),
         punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
-        punch2 = love.graphics.newImage("/assets/punch_placeholder.png")
+        punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
+        block = love.graphics.newImage("/assets/block_placeholder.png")
     }
 
     player.team = 0
@@ -13,6 +14,12 @@ return function (joyrecord,x,y)
     player.x = x
     player.y = y
     player.z = 0
+    player.health = 10
+
+    player.hitbox = hitbox.new(0, 0, 0, 24, 32, 5, function (attacker)
+        player.hitbox.enabled = false
+        player:setstate("hit1")
+    end)
     
     player.statetimer = 0
 
@@ -25,21 +32,37 @@ return function (joyrecord,x,y)
         local ax1, ax2 = self.joy:getAxes()
         if math.abs(ax1) < 0.2 then ax1 = 0 end
         if math.abs(ax2) < 0.2 then ax2 = 0 end
+
+        if ax1 < -0.1 then player.left = true  end
+        if ax1 >  0.1 then player.left = false end
+
         self.x = self.x + ((ax1)*dt)*30
         self.y = self.y + ((ax2/2)*dt)*30
     end
+
+    ------ UPDATE STATES
 
     function player.update_states.normal(self, dt)
         walk_movement(self, dt)
         if self.joy:isGamepadDown("b") then
             self:setstate("punch1")
         end
+
+        if self.joy:isGamepadDown("leftshoulder","rightshoulder") then
+            self.hitbox.enabled = false
+            self:setstate("block")
+        end
     end
 
-    function player.draw_states.normal(self)
-        love.graphics.draw(self.frames.idle,self.x,self.y - self.z)
-    end
 
+    
+
+    function player.update_states.block(self)
+        if self.statetimer > 0.5 then
+            self.hitbox.enabled = true
+            self:setstate("normal")
+        end
+    end
 
     function player.update_states.punch1(self)
         if self.statetimer > 0.1 then
@@ -54,12 +77,22 @@ return function (joyrecord,x,y)
         end
     end
 
-    function player.draw_states.punch1(self)
-        love.graphics.draw(self.frames.punch1, self.x, self.y - self.z)
+
+    ------ DRAW STATES
+    function player.draw_states.normal(self,x,y,z,f)
+        love.graphics.draw(self.frames.idle,x,y - z,nil,f,1)
     end
 
-    function player.draw_states.punch2(self)
-        love.graphics.draw(self.frames.punch2, self.x, self.y - self.z)
+    function player.draw_states.block(self,x,y,z)
+        love.graphics.draw(self.frames.block,x,y - z,nil,f,1)
+    end
+
+    function player.draw_states.punch1(self,x,y,z)
+        love.graphics.draw(self.frames.punch1, x, y - z,nil,f,1)
+    end
+
+    function player.draw_states.punch2(self,x,y,z)
+        love.graphics.draw(self.frames.punch2, x, y - z,nil,f,1)
     end
 
     function player.setstate(self, newstate)
@@ -83,7 +116,9 @@ return function (joyrecord,x,y)
     end
 
     function player.draw(self)
-        self:current_draw_state()
+        local dx, dy, dz = math.floor(self.x), math.floor(self.y), math.floor(self.z)
+        local f = self.left and -1 or 1
+        self:current_draw_state(dx,dy,dz,f)
     end
 
     return player

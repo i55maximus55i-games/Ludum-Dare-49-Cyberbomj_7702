@@ -12,6 +12,7 @@ return function (x,y)
     punchable.z = 0
     
     punchable.hitbox = hitbox.new(0, 0, 0, 24, 32, 5, function (attacker)
+        punchable.hitbox.enabled = false
         punchable:setstate("hit1")
     end)
 
@@ -32,21 +33,22 @@ return function (x,y)
 
     function punchable.update_states.hit2(self)
         if self.statetimer > 0.1 then
+            punchable.hitbox.enabled = true
             self:setstate("normal")
         end
     end
 
     ------ DRAW STATES
-    function punchable.draw_states.normal(self)
-        love.graphics.draw(self.frames.idle,self.x,self.y)
+    function punchable.draw_states.normal(self,x,y)
+        love.graphics.draw(self.frames.idle,x,y)
     end
 
-    function punchable.draw_states.hit1(self)
-        love.graphics.draw(self.frames.hit,self.x,self.y)
+    function punchable.draw_states.hit1(self,x,y)
+        love.graphics.draw(self.frames.hit,x,y)
     end
 
-    function punchable.draw_states.hit2(self)
-        love.graphics.draw(self.frames.hit,self.x,self.y)
+    function punchable.draw_states.hit2(self,x,y)
+        love.graphics.draw(self.frames.hit,x,y)
     end
 
 
@@ -71,7 +73,8 @@ return function (x,y)
     end
 
     function punchable.draw(self)
-        self:current_draw_state()
+        local dx, dy = math.floor(self.x), math.floor(self.y)
+        self:current_draw_state(dx,dy)
     end
 
     return punchable

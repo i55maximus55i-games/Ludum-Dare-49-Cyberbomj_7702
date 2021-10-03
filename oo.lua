@@ -6,6 +6,9 @@ local world = {
         end
     end,
     draw = function(self,dt)
+        table.sort(self.objects, function (left, right)
+            return left.y < right.y
+        end)
         for i,v in pairs(self.objects) do
             v:draw(dt)
         end
@@ -18,10 +21,16 @@ local world = {
     end,
     del = function(self,old) 
         local o = self.objects
+        local todelete = nil
         for i,v in pairs(o) do
             if v.myid == old.myid then
-                o[i] = nil
+                todelete = i
             end
+        end
+        if o[todelete] then
+            table.remove(o,todelete)
+        else
+            print("Deleting nonexistant object",todelete)
         end
     end
 }

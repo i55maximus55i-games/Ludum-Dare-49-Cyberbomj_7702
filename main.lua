@@ -4,15 +4,19 @@ hitbox = require 'hitbox.hitbox'
 local punchable = require 'factories.punchable'
 local player_factory = require 'factories.player'
 
+font = love.graphics.newFont("/assets/uni0553-webfont.ttf")
+love.graphics.setFont(font)
+
 screenCanvas = love.graphics.newCanvas(160*2,90*2)
-love.graphics.setDefaultFilter("nearest")
+--love.graphics.setDefaultFilter("nearest")
+screenCanvas:setFilter("nearest","nearest")
 
-
-local joysticks = {}
+joysticks = {}
 for i,v in ipairs(love.joystick.getJoysticks()) do
     joysticks[i] = {
         available = true,
-        instance = v
+        instance = v,
+        playerobj = false,
     }
 end
 
@@ -37,10 +41,12 @@ function love.update(dt)
             v.player = np
             world:add(np)
             sound_player_join:play()
+            v.playerobj = np
         end
         if not v.available and v.instance:isGamepadDown("back") then
             v.available = true
             world:del(v.player)
+            v.playerobj = false
             sound_player_disconnect:play()
         end
     end
@@ -49,10 +55,17 @@ end
 
 function love.draw()
     for i, joystick in ipairs(joysticks) do
-        love.graphics.print(joystick.instance:getName(), 10, i * 20)
-        love.graphics.print(joystick.available and "OPEN" or "USED", 200, i * 20)
-        
-        love.graphics.print(joystick.instance:getGamepadMappingString(), 10, i * 20 + 10)
+        local offset = (160*i)-80
+        if not joystick.available then
+            local str = string.format(
+[[PLAYER %d
+HEALTH: %d
+SELECT TO LEAVE
+]],i,joystick.playerobj.health)
+            love.graphics.print(str,offset,50,0)
+        else
+            love.graphics.print("PRESS START\nPLAYER " .. i,offset,50,0)
+        end
     end
 
     
@@ -76,7 +89,7 @@ function love.draw()
         camx = camsum / camcount - 160
     end
     love.graphics.clear()
-    love.graphics.translate(-camx,0)
+    love.graphics.translate(math.floor(-camx),0)
     love.graphics.line(0,0,0,200)
     
     world:draw()
@@ -84,5 +97,4 @@ function love.draw()
     love.graphics.setCanvas()
     love.graphics.translate(camx,0)
     love.graphics.draw(screenCanvas,0,0,0,2,2)
-    print(camcount,camsum,camx)
 end
