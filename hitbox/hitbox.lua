@@ -44,6 +44,7 @@ function hitbox.tryhit(attacker, x, y, z, width, height, depth, callback_arg)
                 -- print("A = {" .. b_x0 .. ", " .. b_y0 .. "}, B = {" .. b_x1 .. ", " .. b_y1 .. "}")
                 -- print()
                 v.hitbox.callback(attacker, callback_arg)
+                sound_hit:play()
             end
         end
     end
