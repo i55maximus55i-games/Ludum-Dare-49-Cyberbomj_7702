@@ -102,6 +102,13 @@ function sharedstates.create_update_states()
         end
     end
 
+    function new_update_states.block(self,dx,dy,dz,f,ox)
+        if self.statetimer > 1 then
+            self.hitbox.enabled = true
+            self:setstate("normal")
+        end
+    end
+
     return new_update_states
 end
 
@@ -150,6 +157,10 @@ function sharedstates.create_draw_states()
     end
     function new_draw_states.elbow2(self,dx,dy,dz,f,ox)
         love.graphics.draw(self.frames.elbow2, dx, dy - dz,nil,f,1,ox)
+    end
+
+    function new_draw_states.block(self,dx,dy,dz,f,ox)
+        love.graphics.draw(self.frames.block, dx, dy - dz,nil,f,1,ox)
     end
     
     return new_draw_states

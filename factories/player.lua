@@ -88,6 +88,11 @@ return function (joyrecord,x,y)
         if self.joy:isGamepadDown("b") then
             self:setstate("punch1")
         end
+
+        if self.joy:isGamepadDown("leftshoulder", "rightshoulder") then
+            self.hitbox.enabled = false
+            self:setstate("block")
+        end
     end
     
     function player.draw_states.normal(self,dx,dy,dz,f,ox)
