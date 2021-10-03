@@ -11,7 +11,11 @@ function sharedstates.create_update_states()
         end
     end
     function new_update_states.punch2(self)
-        hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5)
+        if self.left then
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 5})            
+        else
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 5})
+        end
         if self.statetimer > 0.1 then
             self:setstate("normal")
         end
