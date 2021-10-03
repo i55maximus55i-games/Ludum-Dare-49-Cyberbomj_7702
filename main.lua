@@ -15,6 +15,23 @@ screenCanvas:setFilter("nearest","nearest")
 
 local bum_frames = {}
 bum_frames[1] = {
+    idle = love.graphics.newImage("/assets/blue_idle_00.png"),
+    punch1 = love.graphics.newImage("/assets/blue_ready_00.png"),
+    punch2 = love.graphics.newImage("/assets/blue_punch_02.png"),
+    block = love.graphics.newImage("/assets/blue_block_00.png"),
+    hit = love.graphics.newImage("/assets/blue_hit_00.png"),
+    knockover = love.graphics.newImage("/assets/blue_knockover_00.png"),
+    down = love.graphics.newImage("/assets/blue_down_00.png"),
+    
+    uppercut1 = love.graphics.newImage("/assets/blue_uppercut_00.png"),
+    uppercut2 = love.graphics.newImage("/assets/blue_uppercut_02.png"),
+    kick2 = love.graphics.newImage("/assets/blue_kick_02.png"),
+    elbow2 = love.graphics.newImage("/assets/blue_elbowpunch_02.png"),
+
+    walk1 = love.graphics.newImage("/assets/blue_idlewalk_0.png"),
+    walk2 = love.graphics.newImage("/assets/blue_idlewalk_1.png")
+}
+bum_frames[2] = {
     idle = love.graphics.newImage("/assets/green_idle_00.png"),
     punch1 = love.graphics.newImage("/assets/green_ready_00.png"),
     punch2 = love.graphics.newImage("/assets/green_punch_04.png"),
@@ -31,7 +48,7 @@ bum_frames[1] = {
     walk1 = love.graphics.newImage("/assets/green_idlewalk_2.png"),
     walk2 = love.graphics.newImage("/assets/green_idlewalk_6.png")
 }
-bum_frames[2] = {
+bum_frames[3] = {
     idle = love.graphics.newImage("/assets/idle_placeholder.png"),
     punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
     punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
