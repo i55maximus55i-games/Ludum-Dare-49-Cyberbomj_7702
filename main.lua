@@ -13,6 +13,42 @@ screenCanvas = love.graphics.newCanvas(160*2,90*2)
 --love.graphics.setDefaultFilter("nearest")
 screenCanvas:setFilter("nearest","nearest")
 
+local bum_frames = {}
+bum_frames[1] = {
+    idle = love.graphics.newImage("/assets/green_idle_00.png"),
+    punch1 = love.graphics.newImage("/assets/green_ready_00.png"),
+    punch2 = love.graphics.newImage("/assets/green_punch_04.png"),
+    block = love.graphics.newImage("/assets/green_block_00.png"),
+    hit = love.graphics.newImage("/assets/green_hit_00.png"),
+    knockover = love.graphics.newImage("/assets/green_knockover_00.png"),
+    down = love.graphics.newImage("/assets/green_down_00.png"),
+    
+    uppercut1 = love.graphics.newImage("/assets/green_uppercut_00.png"),
+    uppercut2 = love.graphics.newImage("/assets/green_uppercut_02.png"),
+    kick2 = love.graphics.newImage("/assets/green_kick_02.png"),
+    elbow2 = love.graphics.newImage("/assets/green_elbowpunch_02.png"),
+
+    walk1 = love.graphics.newImage("/assets/green_idlewalk_2.png"),
+    walk2 = love.graphics.newImage("/assets/green_idlewalk_6.png")
+}
+bum_frames[2] = {
+    idle = love.graphics.newImage("/assets/idle_placeholder.png"),
+    punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
+    punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
+    block = love.graphics.newImage("/assets/block_placeholder.png"),
+    hit = love.graphics.newImage("/assets/hit_placeholder.png"),
+    knockover = love.graphics.newImage("/assets/knockover_placeholder.png"),
+    down = love.graphics.newImage("/assets/down_placeholder.png"),
+    
+    uppercut1 = love.graphics.newImage("/assets/sit_placeholder.png"),
+    uppercut2 = love.graphics.newImage("/assets/uppercut_placeholder.png"),
+    kick2 = love.graphics.newImage("/assets/kick_placeholder.png"),
+    elbow2 = love.graphics.newImage("/assets/elbowpunch_placeholder.png"),
+
+    walk1 = love.graphics.newImage("/assets/idle_walk1.png"),
+    walk2 = love.graphics.newImage("/assets/idle_walk2.png")
+}
+
 joysticks = {}
 for i,v in ipairs(love.joystick.getJoysticks()) do
     joysticks[i] = {
@@ -42,6 +78,7 @@ function love.update(dt)
             sound_player_join:play()
             v.playerobj = np
             np.team = i
+            np.frames = bum_frames[i]
         end
         if not v.available and (v.instance:isGamepadDown("back") or v.playerobj.health < 1 or v.playerobj.inactivity > 30)  then
             v.available = true
