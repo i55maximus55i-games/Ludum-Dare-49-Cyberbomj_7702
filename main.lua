@@ -23,9 +23,6 @@ for i,v in ipairs(love.joystick.getJoysticks()) do
 end
 
 function love.load() 
-    world:add(punchable(200,100))
-    world:add(punchable(200,130))
-    world:add(punchable(200,160))
     world:add(picture_factory(-320,0,"/assets/backdrop.png"))
 end
 
@@ -57,39 +54,28 @@ function love.update(dt)
 end
 
 function love.draw()
-    for i, joystick in ipairs(joysticks) do
-        local offset = (160*i)-80
-        if not joystick.available then
-            local str = string.format(
-[[PLAYER %d
-HEALTH: %d
-SELECT TO LEAVE
-]],i,joystick.playerobj.health)
-            love.graphics.print(str,offset,50,0)
-        else
-            love.graphics.print("PRESS START\nPLAYER " .. i,offset,50,0)
-        end
-    end
-
-    
+  
     
     love.graphics.setCanvas(screenCanvas)
     local camsum = 0
     local camcount = 0
     local camx = 0
     for i,object in pairs(world.objects) do
-        if object.team == 0 then
-            love.graphics.line(object.x,0,object.x,100)
+        if object.isplayer then
             camcount = camcount + 1
             camsum = camsum + object.x
         else
         end
     end
     
-    love.graphics.setColor(1,1,1,1)
-    
     if camcount > 0 then
         camx = camsum / camcount - 160
+    end
+    if camx < -160 then
+        camx = -160
+    end
+    if camx > 320 then
+        camx = 320
     end
     love.graphics.clear()
     love.graphics.translate(math.floor(-camx),0)
@@ -100,4 +86,31 @@ SELECT TO LEAVE
     love.graphics.setCanvas()
     love.graphics.translate(camx,0)
     love.graphics.draw(screenCanvas,0,0,0,3,3)
+    for i, joystick in ipairs(joysticks) do
+        local offset = (160*i)-80
+        if not joystick.available then
+            local str = string.format(
+[[PLAYER %d
+HEALTH: %d
+SELECT TO LEAVE
+]],i,joystick.playerobj.health)
+            love.graphics.setColor(0,0,0,1)
+            for xi=-5,5 do
+                for yi=-5,5 do
+                    love.graphics.print(str,offset+xi,50+yi)
+                end
+            end
+            love.graphics.setColor(1,1,1,1)
+            love.graphics.print(str,offset,50,0)
+        else
+            love.graphics.setColor(0,0,0,1)
+            for xi=-5,5 do
+                for yi=-5,5 do
+                    love.graphics.print("PRESS START\nPLAYER " .. i,offset+xi,50+yi)
+                end
+            end
+            love.graphics.setColor(1,1,1,1)
+            love.graphics.print("PRESS START\nPLAYER " .. i,offset,50,0)
+        end
+    end
 end

@@ -6,6 +6,9 @@ return function (joyrecord,x,y)
         punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
         punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
         block = love.graphics.newImage("/assets/block_placeholder.png"),
+        hit = love.graphics.newImage("/assets/hit_placeholder.png"),
+        knockover = love.graphics.newImage("/assets/knockover_placeholder.png"),
+        down = love.graphics.newImage("/assets/down_placeholder.png"),
         
         uppercut1 = love.graphics.newImage("/assets/sit_placeholder.png"),
         uppercut2 = love.graphics.newImage("/assets/uppercut_placeholder.png"),
@@ -20,10 +23,25 @@ return function (joyrecord,x,y)
     player.y = y
     player.z = 0
     player.health = 10
+    player.stamina = 3
 
-    player.hitbox = hitbox.new(0, 0, 0, 24, 32, 5, function (attacker)
+    player.isplayer = true
+
+    
+
+    player.hitbox = hitbox.new(0, 0, 0, 24, 32, 5, function (attacker,hitv)
+        player.knockvx = hitv[1]
+        player.knockvz = hitv[3]
+        player.stamina = player.stamina - 1
+        if hitv[3] > 10 then
+            player.stamina = -1
+        end
         player.hitbox.enabled = false
-        player:setstate("hit1")
+        if player.stamina > 0 then
+            player:setstate("hit1")
+        else
+            player:setstate("knockover")
+        end
     end)
     
 
@@ -42,8 +60,8 @@ return function (joyrecord,x,y)
         if ax1 < -0.1 then player.left = true  end
         if ax1 >  0.1 then player.left = false end
 
-        self.x = self.x + ((ax1)*dt)*30
-        self.y = self.y + ((ax2/2)*dt)*30
+        self.x = self.x + ((ax1)*dt)*50
+        self.y = self.y + ((ax2/2)*dt)*40
     end
 
     -- state normal
@@ -81,6 +99,18 @@ return function (joyrecord,x,y)
     player:setstate("normal")
 
     function player.update(self,dt)
+        if self.x < -140 then
+            self.x = -140
+        end
+        if self.x > 600 then
+            self.x = 600
+        end
+        if self.y < 110 then
+            self.y = 110
+        end
+        if self.y > 160 then
+            self.y = 160
+        end
         self:current_update_state(dt)
         self.statetimer = self.statetimer + dt
         self.z = self.z - dt * 10
@@ -91,6 +121,11 @@ return function (joyrecord,x,y)
         local dx, dy, dz = math.floor(self.x), math.floor(self.y), math.floor(self.z)
         local f = self.left and -1 or 1
         local ox = self.left and 24 or 0
+        if self.z > 3 then
+            love.graphics.setColor(0,0,0,0.5)
+            love.graphics.ellipse("fill",self.x+12,self.y+32,8,4)
+            love.graphics.setColor(1,1,1,1)
+        end 
         self:current_draw_state(dx,dy,dz,f,ox)
     end
 

@@ -7,16 +7,19 @@ function sharedstates.create_update_states()
     local new_update_states = {}
 
     function new_update_states.knockover(self,dt)
-        self.x = self.z + dt*self.knockvz 
-        self.knockvz = self.knockvz - dt * 4
+        self.z = self.z + dt*self.knockvz*30
+        self.x = self.x + dt*self.knockvx*10
+        self.knockvz = self.knockvz - dt * 10
         if self.z < 0 then
             self.z = 0
             self:setstate("down")
+            self.stamina = 3
         end
     end
 
     function new_update_states.down(self,dt)
         if self.statetimer > 1 then
+            self.hitbox.enabled = true
             self:setstate("normal")
         end
     end
@@ -41,9 +44,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.punch2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 0})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 2})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 0})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 2})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -57,9 +60,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.uppercut2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 15})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 11})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 15})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 11})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -67,15 +70,15 @@ function sharedstates.create_update_states()
     end
 
     function new_update_states.kick1(self)
-        if self.statetimer > 0.3 then
+        if self.statetimer > 0.2 then
             self:setstate("kick2")
         end
     end
     function new_update_states.kick2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 0})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-8, 0, 2})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 0})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {8, 0, 2})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -89,9 +92,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.elbow2(self)
         if self.left then
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 0})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 2})
         else
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 0})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 2})            
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -110,7 +113,7 @@ function sharedstates.create_draw_states()
     end
 
     function new_draw_states.down(self,dx,dy,dz,f,ox)
-        love.graphics.draw(self.frames.knockover,dx, dy - dz+4,nil,f,1,ox)
+        love.graphics.draw(self.frames.down,dx-8, dy - dz+12,nil,f,1,ox)
     end
 
     function new_draw_states.hit1(self,dx,dy,dz,f,ox)
