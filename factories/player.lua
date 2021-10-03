@@ -8,9 +8,10 @@ return function (joyrecord,x,y)
     player.x = x
     player.y = y
     player.z = 0
-    player.health = 10
+    player.health = 3
     player.stamina = 3
     player.inactivity = 0
+    player.score = 0
 
     player.isplayer = true
 
@@ -20,15 +21,19 @@ return function (joyrecord,x,y)
         player.knockvx = hitv[1]
         player.knockvz = hitv[3]
         player.stamina = player.stamina - 1
+        
         if hitv[3] > 10 then
             player.stamina = -1
+            
         end
         player.hitbox.enabled = false
         if player.stamina > 0 then
             player:setstate("hit1")
         else
+            attacker.score = attacker.score + 1
             player:setstate("knockover")
         end
+    
     end)
     
 
