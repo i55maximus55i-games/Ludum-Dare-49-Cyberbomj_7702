@@ -12,12 +12,17 @@ local world = {
     end,
     add = function(self,new)
         local o = self.objects
+        local newid = love.math.random(999999999)
         o[#o+1] = new
-        new.myid = #o
+        new.myid = newid
     end,
     del = function(self,old) 
         local o = self.objects
-        o[old.myid] = nil
+        for i,v in pairs(o) do
+            if v.myid == old.myid then
+                o[i] = nil
+            end
+        end
     end
 }
 return world
