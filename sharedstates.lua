@@ -18,8 +18,9 @@ function sharedstates.create_update_states()
     end
 
     function new_update_states.down(self,dt)
-        if self.statetimer > 1 then
+        if self.statetimer > 0.5 then
             self.hitbox.enabled = true
+            self.health = self.health - 1
             self:setstate("normal")
         end
     end
@@ -44,9 +45,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.punch2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 2})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-10, 0, 3})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 2})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {10, 0, 3})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -60,9 +61,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.uppercut2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 11})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-7, 0, 11})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 11})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {7, 0, 11})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -76,9 +77,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.kick2(self)
         if self.left then
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-8, 0, 2})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-16, 0, 2})            
         else
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {8, 0, 2})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {16, 0, 2})
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")
@@ -92,9 +93,9 @@ function sharedstates.create_update_states()
     end
     function new_update_states.elbow2(self)
         if self.left then
-            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {5, 0, 2})
+            hitbox.tryhit(self, self.x+19, self.y+12, self.z, 5, 5, 5, {15, 0, 2})
         else
-            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-5, 0, 2})            
+            hitbox.tryhit(self, self.x, self.y+12, self.z, 5, 5, 5, {-15, 0, 2})            
         end
         if self.statetimer > 0.1 then
             self:setstate("normal")

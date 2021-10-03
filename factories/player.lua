@@ -27,6 +27,7 @@ return function (joyrecord,x,y)
     player.z = 0
     player.health = 10
     player.stamina = 3
+    player.inactivity = 0
 
     player.isplayer = true
 
@@ -65,10 +66,15 @@ return function (joyrecord,x,y)
 
         self.x = self.x + ((ax1)*dt)*50
         self.y = self.y + ((ax2/2)*dt)*40
+
+        if math.abs(ax1) > 0.2 then
+            self.inactivity = 0
+        end
     end
 
     -- state normal
     function player.update_states.normal(self, dt)
+        self.inactivity = self.inactivity + dt
         walk_movement(self, dt)
         if self.joy:isGamepadDown("x") then
             self:setstate("elbow1")
@@ -99,6 +105,7 @@ return function (joyrecord,x,y)
 
     function player.setstate(self, newstate)
         self.statetimer = 0
+        self.inactivity = 0
         if self.update_states[newstate] then 
             print("CHANGIN STATE!!11 " .. newstate)
             self.current_update_state = self.update_states[newstate] 

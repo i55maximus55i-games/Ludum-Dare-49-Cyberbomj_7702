@@ -43,7 +43,7 @@ function love.update(dt)
             v.playerobj = np
             np.team = i
         end
-        if not v.available and v.instance:isGamepadDown("back") then
+        if not v.available and (v.instance:isGamepadDown("back") or v.playerobj.health < 1 or v.playerobj.inactivity > 5)  then
             v.available = true
             world:del(v.player)
             v.playerobj = false
