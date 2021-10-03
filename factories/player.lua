@@ -1,23 +1,6 @@
 return function (joyrecord,x,y)
     local player = {}
     print(love.filesystem.getWorkingDirectory())
-    player.frames = {
-        idle = love.graphics.newImage("/assets/idle_placeholder.png"),
-        punch1 = love.graphics.newImage("/assets/readytopunch_placeholder.png"),
-        punch2 = love.graphics.newImage("/assets/punch_placeholder.png"),
-        block = love.graphics.newImage("/assets/block_placeholder.png"),
-        hit = love.graphics.newImage("/assets/hit_placeholder.png"),
-        knockover = love.graphics.newImage("/assets/knockover_placeholder.png"),
-        down = love.graphics.newImage("/assets/down_placeholder.png"),
-        
-        uppercut1 = love.graphics.newImage("/assets/sit_placeholder.png"),
-        uppercut2 = love.graphics.newImage("/assets/uppercut_placeholder.png"),
-        kick2 = love.graphics.newImage("/assets/kick_placeholder.png"),
-        elbow2 = love.graphics.newImage("/assets/elbowpunch_placeholder.png"),
-
-        walk1 = love.graphics.newImage("/assets/idle_walk1.png"),
-        walk2 = love.graphics.newImage("/assets/idle_walk2.png")
-    }
 
     player.team = 0
     player.joy = joyrecord.instance
