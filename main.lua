@@ -4,6 +4,7 @@ world = require 'oo'
 hitbox = require 'hitbox.hitbox'
 local punchable = require 'factories.punchable'
 local player_factory = require 'factories.player'
+local picture_factory = require 'factories.pictureobject'
 
 font = love.graphics.newFont("/assets/uni0553-webfont.ttf")
 love.graphics.setFont(font)
@@ -25,6 +26,7 @@ function love.load()
     world:add(punchable(200,100))
     world:add(punchable(200,130))
     world:add(punchable(200,160))
+    world:add(picture_factory(-320,0,/))
 end
 
 function love.update(dt)
