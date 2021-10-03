@@ -26,7 +26,7 @@ function love.load()
     world:add(punchable(200,100))
     world:add(punchable(200,130))
     world:add(punchable(200,160))
-    world:add(picture_factory(-320,0,/))
+    world:add(picture_factory(-320,0,"/assets/backdrop.png"))
 end
 
 function love.update(dt)
