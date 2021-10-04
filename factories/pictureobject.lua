@@ -10,7 +10,7 @@ return function (x,y,path,maydespawn)
         love.graphics.draw(self.drawable,self.x,self.y)
     end
 
-    function new_picture.update(self)
+    function new_picture.update(self,dt)
         self.timer = self.timer + dt
         if self.timer > 20 and self.maydespawn then
             world:del(self)
